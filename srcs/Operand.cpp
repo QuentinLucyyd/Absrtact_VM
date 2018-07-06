@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Int32.cpp                                          :+:      :+:    :+:   */
+/*   Operand.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/15 14:11:48 by qmanamel          #+#    #+#             */
-/*   Updated: 2018/06/15 14:43:15 by qmanamel         ###   ########.fr       */
+/*   Created: 2018/07/06 13:13:18 by qmanamel          #+#    #+#             */
+/*   Updated: 2018/07/06 15:30:36 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../headers/operands/Int32.hpp"
+#include "../headers/Operand.hpp"
 
-Int32::Int32(int n):_type(_Int32), _precision(eOint32_t) {
-    this->_value = static_cast<int32_t>(n);
+Operand::Operand(){};
+
+Operand::Operand(const Operand&){}
+
+Operand::Operand(std::string const & value, eOperandType type, int precision) {
     return ;
 }
 
-Int32::~Int32(void){return ;}
+Operand::~Operand(){};
