@@ -6,7 +6,7 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/06 13:08:38 by qmanamel          #+#    #+#             */
-/*   Updated: 2018/07/06 14:42:18 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/06 16:29:17 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,25 @@
 #ifndef OPERAND_HPP
 #define OPERAND_HPP
 
-class Operand: public IOperand {
+template <typename T> class Operand: public IOperand {
     public:
         Operand();
-        Operand(const Operand&);
-        Operand(std::string const & value, eOperandType type, int precision);
-        const Operand& operator=(const Operand&);
+        Operand( const & Operand _rhs );
+        Operand( std::string const & value, eOperandType type, int precision );
+        const Operand& operator=( const & Operand _new );
         ~Operand();
 
+        int getPrecision( void ) const = 0;
+        std::string const & toString( void ) const = 0;
+        eOperandType getType( void ) const = 0;
+
+        IOperand const * operator+( IOperand const & rhs ) const = 0;
+        IOperand const * operator-( IOperand const & rhs ) const = 0;
+        IOperand const * operator*( IOperand const & rhs ) const = 0;
+        IOperand const * operator/( IOperand const & rhs ) const = 0;
+        IOperand const * operator%( IOperand const & rhs ) const = 0;
     private:
-        Operand         _value();
+        std::string     _value;
         eOperandType    _type;
         int             _precision;
         std::string     _string;

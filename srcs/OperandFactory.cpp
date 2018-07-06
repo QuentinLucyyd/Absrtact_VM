@@ -6,7 +6,7 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/06 13:34:23 by qmanamel          #+#    #+#             */
-/*   Updated: 2018/07/06 15:30:29 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/06 16:21:04 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ IOperand const * OperandFactory::createOperand( eOperandType type, std::string c
     return ((*this.*newOperand)(value));
 }
 
-IOperand const * OperandFactory::createInt8( std::string const & value ) const {return ;}
+IOperand const * OperandFactory::createInt8( std::string const & value ) const {
+    return (new Operand<int8_t>(value, _Int8, 0));
+}
 
 IOperand const * OperandFactory::createInt16( std::string const & value ) const {return ;}
 

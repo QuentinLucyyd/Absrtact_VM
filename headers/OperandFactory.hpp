@@ -6,14 +6,14 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/06 13:29:18 by qmanamel          #+#    #+#             */
-/*   Updated: 2018/07/06 13:56:23 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/06 16:19:37 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OPERANDFACTORY_HPP
 #define OPERANDFACTORY_HPP
 
-#include "IOperand.hpp";
+#include "IOperand.hpp"
 
 class OperandFactory {
     public:
