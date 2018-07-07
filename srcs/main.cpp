@@ -6,9 +6,11 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 11:59:40 by qmanamel          #+#    #+#             */
-/*   Updated: 2018/07/06 13:06:42 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/07 13:56:30 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int main(){
+#include "../headers/OperandFactory.hpp"
+
+int main(int argc, char **argv){
 }

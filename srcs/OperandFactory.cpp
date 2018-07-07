@@ -6,7 +6,7 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/06 13:34:23 by qmanamel          #+#    #+#             */
-/*   Updated: 2018/07/06 16:21:04 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/07 13:52:04 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,21 @@ IOperand const * OperandFactory::createOperand( eOperandType type, std::string c
 }
 
 IOperand const * OperandFactory::createInt8( std::string const & value ) const {
-    return (new Operand<int8_t>(value, _Int8, 0));
+    return new Operand<int8_t>(value, _Int8);
 }
 
-IOperand const * OperandFactory::createInt16( std::string const & value ) const {return ;}
+IOperand const * OperandFactory::createInt16( std::string const & value ) const {
+    return new Operand<int16_t>(value, _Int16);
+}
 
-IOperand const * OperandFactory::createInt32( std::string const & value ) const {return ;}
+IOperand const * OperandFactory::createInt32( std::string const & value ) const {
+    return new Operand<int32_t>(value, _Int32);
+}
 
-IOperand const * OperandFactory::createFloat( std::string const & value ) const {return ;}
+IOperand const * OperandFactory::createFloat( std::string const & value ) const {
+    return new Operand<float>(value, _Float);
+}
 
-IOperand const * OperandFactory::createDouble( std::string const & value ) const {return ;}
+IOperand const * OperandFactory::createDouble( std::string const & value ) const {
+    return new Operand<double>(value, _Double);
+}
