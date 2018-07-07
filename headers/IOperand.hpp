@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IOperand.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 11:42:06 by qmanamel          #+#    #+#             */
-/*   Updated: 2018/07/07 13:37:43 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/07 20:15:14 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 # define IOPERAND_HPP
 
 # include <iostream>
+# include <fstream>
 # include <map>
 # include <cstdint>
+# include <list>
 
 enum eOperandType {_Int8, _Int16, _Int32, _Float, _Double};
 
