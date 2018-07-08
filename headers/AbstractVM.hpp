@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 19:16:39 by root              #+#    #+#             */
-/*   Updated: 2018/07/08 15:29:24 by root             ###   ########.fr       */
+/*   Updated: 2018/07/08 19:46:15 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "OperandFactory.hpp"
 # include "Lexer.hpp"
+# include "Parser.hpp"
 
 class AbstractVm {
 public:
@@ -35,6 +36,7 @@ public:
 private:
     std::list<std::string>  _operations;
     Lexer                   _lexer;
+    Parser                  _parser;
 };
 
 #endif

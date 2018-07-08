@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 19:23:55 by root              #+#    #+#             */
-/*   Updated: 2018/07/08 15:38:37 by root             ###   ########.fr       */
+/*   Updated: 2018/07/08 19:46:33 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void AbstractVm::readFromFile( std::string file) {
 
 void AbstractVm::start( void ) {
     this->_lexer.runLexer(this->_operations);
+    this->_parser.runParser(this->_operations);
 }
 
 /* Exceptions */

@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Parser.hpp                                         :+:      :+:    :+:   */
+/*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/08 19:19:54 by root              #+#    #+#             */
-/*   Updated: 2018/07/08 19:47:10 by root             ###   ########.fr       */
+/*   Created: 2018/07/08 19:43:16 by root              #+#    #+#             */
+/*   Updated: 2018/07/08 19:50:23 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_HPP
-#define PARSER_HPP
+#include "../headers/Parser.hpp"
 
-#include "OperandFactory.hpp"
+Parser::Parser() {
+    return ;
+}
+Parser::~Parser() {
+    return ;
+}
 
-class Parser {
-public:
-    Parser();
-    ~Parser();
+void    Parser::runParser(std::list<std::string> operations) {
+    OperandFactory factory;
 
-    void    runParser(std::list<std::string> operations);
-private:
-    std::list<IOperand const *> _stack;
-};
-
-#endif //!PARSER_HPP
+    for(std::list<std::string>::iterator i = operations.begin(); i != operations.end(); ++i) {
+        std::string line =  *i;
+        std::cout << line << std::endl;
+    }
+}
