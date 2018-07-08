@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 19:23:55 by root              #+#    #+#             */
-/*   Updated: 2018/07/07 20:53:51 by root             ###   ########.fr       */
+/*   Updated: 2018/07/08 15:38:37 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,6 @@ void AbstractVm::readFromStdin( void ) {
             break;
         }
     }
-    // std::list<std::string>::iterator i;
-    // for( i = this->_operations.begin(); i != this->_operations.end(); ++i)
-    //     std::cout << *i << std::endl;
-}
-
-bool is_empty(std::ifstream& pFile)
-{
-    return pFile.peek() == std::ifstream::traits_type::eof();
 }
 
 void AbstractVm::readFromFile( std::string file) {
@@ -54,13 +46,12 @@ void AbstractVm::readFromFile( std::string file) {
             this->_operations.push_back(line);
         }
         progFile.close();
-
-        // std::list<std::string>::iterator i;
-        // for( i = this->_operations.begin(); i != this->_operations.end(); ++i)
-        //     std::cout << *i << std::endl;
     }
 }
 
+void AbstractVm::start( void ) {
+    this->_lexer.runLexer(this->_operations);
+}
 
 /* Exceptions */
 

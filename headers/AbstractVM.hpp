@@ -6,14 +6,15 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/07 19:16:39 by root              #+#    #+#             */
-/*   Updated: 2018/07/07 20:48:51 by root             ###   ########.fr       */
+/*   Updated: 2018/07/08 15:29:24 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ABSTRACTVM_HPP
 #define ABSTRACTVM_HPP
 
-#include "OperandFactory.hpp"
+# include "OperandFactory.hpp"
+# include "Lexer.hpp"
 
 class AbstractVm {
 public:
@@ -30,8 +31,10 @@ public:
 
     void readFromStdin( void );
     void readFromFile( std::string file);
+    void start( void );
 private:
-    std::list<std::string> _operations;
+    std::list<std::string>  _operations;
+    Lexer                   _lexer;
 };
 
 #endif
