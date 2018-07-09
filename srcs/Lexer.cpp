@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Lexer.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/08 14:34:16 by root              #+#    #+#             */
-/*   Updated: 2018/07/08 19:14:07 by root             ###   ########.fr       */
+/*   Updated: 2018/07/09 10:03:15 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,35 +31,23 @@ Lexer::~Lexer(){
     return ;
 };
 
-static inline void ltrim(std::string &s) {
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
-        return !std::isspace(ch);
-    }));
-}
-
 static inline void rtrim(std::string &s) {
-    s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
-        return !std::isspace(ch);
-    }).base(), s.end());
+    s.erase(std::find_if(s.rbegin(), s.rend(),
+            std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
 }
 
-std::string replaceinString(std::string str, std::string tofind, std::string toreplace)
-{
-        size_t position = 0;
-        for ( position = str.find(tofind); position != std::string::npos; position = str.find(tofind,position) )
-        {
-                str.replace(position ,1, toreplace);
-        }
-        return(str);
+static inline void ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(),
+            std::not1(std::ptr_fun<int, int>(std::isspace))));
 }
 
-void    Lexer::runLexer(std::list<std::string> operations) {
+void    Lexer::runLexer(std::list<std::string>& operations) {
 
     int lineCount = 0;
     for(std::list<std::string>::iterator i = operations.begin(); i != operations.end(); ++i) {
         lineCount++;
-        ltrim(*i); // Trim left spaces.
-        rtrim(*i); // Trimt right spaces.
+        ltrim(*i);
+        rtrim(*i);
 
         std::string line = *i;
         if (line.substr(0, 1) != ";") {
@@ -78,9 +66,6 @@ void    Lexer::runLexer(std::list<std::string> operations) {
             }
         }
     }
-    // for(std::list<std::string>::iterator i = operations.begin(); i != operations.end(); ++i) {
-    //     std::cout << *i << std::endl;
-    // }
 
     if(!this->_errList.empty()) {
         throw Lexer::LexerError(this->_errList);
@@ -92,10 +77,10 @@ void    Lexer::runLexer(std::list<std::string> operations) {
 Lexer::LexerError::LexerError(std::list<std::string> errList) {
     for(std::list<std::string>::iterator i = errList.begin(); i != errList.end(); ++i) {
         _exceptions += (*i + '\n');
-    }        
+    }
 }
 
-Lexer::LexerError::~LexerError() {return ;}
+Lexer::LexerError::~LexerError() throw(){ return ; }
 
 const char *Lexer::LexerError::what() const throw() {
     return this->_exceptions.c_str();

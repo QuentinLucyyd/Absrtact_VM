@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Lexer.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/08 14:29:01 by root              #+#    #+#             */
-/*   Updated: 2018/07/08 17:44:32 by root             ###   ########.fr       */
+/*   Updated: 2018/07/09 08:29:40 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ public:
     class LexerError : public std::exception {
         public:
             LexerError(std::list<std::string> errList);
-            ~LexerError();
+            ~LexerError() _NOEXCEPT;
         private:
             virtual const char *what() const throw();
             std::string _exceptions;
     };
 
-    void    runLexer(std::list<std::string> operations);
+    void    runLexer(std::list<std::string>& operations);
     void    createExceptions();
 private:
     std::list<std::string>  _errList;

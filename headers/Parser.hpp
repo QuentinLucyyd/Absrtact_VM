@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/08 19:19:54 by root              #+#    #+#             */
-/*   Updated: 2018/07/08 19:47:10 by root             ###   ########.fr       */
+/*   Updated: 2018/07/09 10:26:07 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,27 @@ public:
     Parser();
     ~Parser();
 
-    void    runParser(std::list<std::string> operations);
+    void                runParser( std::list<std::string>& operations );
+    eOperandType        getOperandValue( std::string operandType );
+
+    void                push( std::string line );
+    void                pop( void );
+    void                dump( void );
+
+    // !EXCEPTIONS 
+    class PopOnEmptyStack : public std::exception {
+        public:
+            PopOnEmptyStack( std::string line );
+            ~PopOnEmptyStack() _NOEXCEPT;
+        private:
+            virtual const char *what() const throw();
+            std::string _errLine;
+    };
 private:
     std::list<IOperand const *> _stack;
+    OperandFactory              _factory;
+
+    int                         _lineCount;
 };
 
 #endif //!PARSER_HPP

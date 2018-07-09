@@ -6,7 +6,7 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/06 13:08:38 by qmanamel          #+#    #+#             */
-/*   Updated: 2018/07/07 13:45:09 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/09 10:40:45 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 template <typename T> class Operand: public IOperand {
     public:
         Operand();
-        Operand(Operand const &src);
-        Operand( std::string const & value, eOperandType type);
+        Operand( Operand const &src );
+        Operand( T value, eOperandType type );
         ~Operand();
 
         int getPrecision( void ) const;
@@ -46,9 +46,10 @@ template <typename T>Operand<T>::Operand(Operand const &src) {
     this->_string = src->_string;
 }
 
-template <typename T>Operand<T>::Operand(std::string const & value, eOperandType type) {
-    this->_value = value;
+template <typename T>Operand<T>::Operand(T value, eOperandType type) {
+    this->_value = std::to_string(value);
     this->_type = type;
+    this->_string = _value;
 }
 
 template <typename T> int Operand<T>::getPrecision( void ) const {
