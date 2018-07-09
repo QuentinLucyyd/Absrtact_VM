@@ -6,7 +6,7 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/06 13:34:23 by qmanamel          #+#    #+#             */
-/*   Updated: 2018/07/09 13:17:53 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/09 15:29:31 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,21 @@ IOperand const * OperandFactory::createOperand( eOperandType type, std::string c
 }
 
 IOperand const * OperandFactory::createInt8( std::string const & value ) const {
-    return new Operand<int8_t>(std::stoi(value), _Int8, CHAR_MAX, CHAR_MIN);
+    return new Operand<int8_t>(std::stoi(value), _Int8);
 }
 
 IOperand const * OperandFactory::createInt16( std::string const & value ) const {
-    return new Operand<int16_t>(std::stoi(value), _Int16, SHRT_MAX, SHRT_MIN);
+    return new Operand<int16_t>(std::stoi(value), _Int16);
 }
 
 IOperand const * OperandFactory::createInt32( std::string const & value ) const {
-    return new Operand<int32_t>(std::stoi(value), _Int32, INT_MAX, INT_MIN);
+    return new Operand<int32_t>(std::stoi(value), _Int32);
 }
 
 IOperand const * OperandFactory::createFloat( std::string const & value ) const {
-    return new Operand<float>(std::stof(value), _Float, std::numeric_limits<float>::max(), std::numeric_limits<float>::min());
+    return new Operand<float>(std::stof(value), _Float);
 }
 
 IOperand const * OperandFactory::createDouble( std::string const & value ) const {
-    return new Operand<double>(std::stod(value), _Double, std::numeric_limits<double>::max(), std::numeric_limits<double>::min());
+    return new Operand<double>(std::stod(value), _Double);
 }

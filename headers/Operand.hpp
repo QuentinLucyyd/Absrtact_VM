@@ -6,7 +6,7 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/06 13:08:38 by qmanamel          #+#    #+#             */
-/*   Updated: 2018/07/09 13:59:24 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/09 16:19:59 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,12 @@ template <typename T> class Operand: public IOperand {
     public:
         Operand();
         Operand( Operand const &src );
-        Operand( T value, eOperandType type , long double valueMax, long double valueMin);
+        Operand( T value, eOperandType type);
         ~Operand();
 
-        long double      valueMax( void );
-        long double      valueMin( void );
-
-        int getPrecision( void ) const;
-        std::string const & toString( void ) const;
-        eOperandType getType( void ) const;
+        int                         getPrecision( void ) const;
+        std::string const &         toString( void ) const;
+        eOperandType                getType( void ) const;
 
         IOperand const * operator+( IOperand const & rhs ) const;
         IOperand const * operator-( IOperand const & rhs ) const;
@@ -39,8 +36,6 @@ template <typename T> class Operand: public IOperand {
         eOperandType    _type;
         std::string     _string;
 
-        long double     _valueMax;
-        long double     _valueMin;
 };
 
 template <typename T>Operand<T>::Operand( void ) {return ;}
@@ -52,7 +47,7 @@ template <typename T>Operand<T>::Operand(Operand const &src) {
     this->_string = src->_string;
 }
 
-template <typename T>Operand<T>::Operand( T value, eOperandType type , long double valueMax, long double valueMin ) {
+template <typename T>Operand<T>::Operand( T value, eOperandType type ) {
     this->_value = std::to_string(value);
     this->_type = type;
     this->_string = _value;
@@ -71,10 +66,10 @@ template <typename T> eOperandType Operand<T>::getType( void ) const {
 }
 
 template <typename T> IOperand const * Operand<T>::operator+( IOperand const & rhs ) const {
-    if (this->getPrecision() < rhs.getPrecision()) {
-        std::cout << "Precision Checking" << std::endl;
+    if (this->getPrecision() > rhs.getPrecision()) {
+        std::cout << "Return This" << std::endl;
     }
-    std::cout << "NO CHecking" << std::endl;
+
     return (this);
 }
 
@@ -91,10 +86,20 @@ template <typename T> IOperand const *  Operand<T>::operator%( IOperand const & 
     return (this);
 }
 
-template <typename T> long double Operand<T>::valueMax( void ) { return (this->_valueMax);}
-
-template <typename T> long double Operand<T>::valueMin( void ) { return (this->_valueMin);}
-
-void             checkFlows(IOperand const &rhs, std::string op) {
+template <typename T>bool checkFlows(T value, eOperandType type) {
+    switch (type) {
+        case (_Int8):
+            return (value > CHAR_MAX || value < CHAR_MIN);
+        case (_Int16):
+            return (value > SHRT_MAX || value < SHRT_MIN);
+        case (_Int32):
+            return (value > INT_MAX || value < INT_MIN);
+        case (_Float):
+            return (value > std::numeric_limits<float>::max() || value < std::numeric_limits<float>::min());
+        case (_Double):
+            return (value > std::numeric_limits<double>::max() || value < std::numeric_limits)
+    }
+    return (true);
 }
+
 #endif // !OPERAND_HPP
