@@ -6,7 +6,7 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/08 19:43:16 by root              #+#    #+#             */
-/*   Updated: 2018/07/09 10:28:08 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/09 13:44:06 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void               Parser::runParser(std::list<std::string>& operations) {
         if (line.substr(0, line.find(" ")) == "push") { this->push(line); }
         if (line.substr(0, line.find(" ")) == "pop") {this->pop();}
         if (line.substr(0, line.find(" ")) == "dump") {this->dump();}
+        if (line.substr(0, line.find(" ")) == "add") {this->add();}
     }
     std::cout << "Stack Size: " << this->_stack.size() << std::endl;
 }
@@ -49,7 +50,8 @@ void              Parser::push( std::string line ) {
 
 void              Parser::pop( void ) {
     if (!this->_stack.size()) {
-        throw Parser::PopOnEmptyStack(std::to_string(this->_lineCount));
+        std::string errMsg = "[Parser (line: " + std::to_string(this->_lineCount) + " ) Illegal instruction: Pop on empty stack";
+        throw Parser::PopOnEmptyStack(errMsg);
     } else { this->_stack.pop_front(); }
 }
 
@@ -59,13 +61,25 @@ void              Parser::dump( void ) {
     }
 }
 
+void                Parser::add( void ) {
+    std::cout << "ADD CALLED" << std::endl;
+    IOperand const * _addVal1 = (*this->_stack.begin());
+    this->_stack.pop_front();
+    IOperand const * _addVal2 = (*this->_stack.begin());
+    this->_stack.pop_front();
+    std::cout << "Adding: " << _addVal1->toString() + " With type " <<  _addVal1->getType() << std::endl;
+    std::cout << "Adding: " << _addVal2->toString() + " With type " <<  _addVal2->getType() << std::endl;
+    IOperand const *retVal = *_addVal1 + *_addVal2;
+}
+
 // !EXCEPTIONS
 
-Parser::PopOnEmptyStack::PopOnEmptyStack( std::string line ) { _errLine = line; }
+Parser::PopOnEmptyStack::PopOnEmptyStack( std::string errMsg ) {
+    _errMsg = errMsg;
+}
 
 Parser::PopOnEmptyStack::~PopOnEmptyStack() throw() { return ;}
 
 const char*Parser::PopOnEmptyStack::what() const throw() { 
-    std::string errMsg = "[Parser (line: " + _errLine + ")] Illegal instruction: Pop on empty stack";
-    return errMsg.c_str();
+    return _errMsg.c_str();
 }

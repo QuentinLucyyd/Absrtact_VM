@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IOperand.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 11:42:06 by qmanamel          #+#    #+#             */
-/*   Updated: 2018/07/08 14:51:02 by root             ###   ########.fr       */
+/*   Updated: 2018/07/09 13:11:02 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <algorithm> 
 # include <cctype>
 # include <locale>
+# include <climits>
 
 enum eOperandType {_Int8, _Int16, _Int32, _Float, _Double};
 
