@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   OperandFactory.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/06 13:29:18 by qmanamel          #+#    #+#             */
-/*   Updated: 2018/07/07 19:44:11 by root             ###   ########.fr       */
+/*   Updated: 2018/07/10 08:34:44 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OPERANDFACTORY_HPP
 #define OPERANDFACTORY_HPP
 
-#include "Operand.hpp"
+# include "IOperand.hpp"
 
 
 class OperandFactory {
