@@ -6,7 +6,7 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/08 19:43:16 by root              #+#    #+#             */
-/*   Updated: 2018/07/10 16:31:52 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/11 13:39:52 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ void               Parser::runParser(std::list<std::string>& operations) {
         if (line.substr(0, line.find(" ")) == "dump") {this->dump();}
         if (line.substr(0, line.find(" ")) == "add") {this->add();}
         if (line.substr(0, line.find(" ")) == "mul") {this->mul();}
+        if (line.substr(0, line.find(" ")) == "div") {this->div();}
+        if (line.substr(0, line.find(" ")) == "mod") {this->mod();}
         if (line.substr(0, line.find(" ")) == "assert") {this->assert(line);}
     }
-    //std::cout << "Stack Size: " << this->_stack.size() << std::endl;
 }
 
 eOperandType        Parser::getOperandValue(std::string operandType) {
@@ -64,7 +65,11 @@ void              Parser::dump( void ) {
         throw Parser::PopOnEmptyStack(errMsg);
     }
     for (std::list<IOperand const *>::iterator i = this->_stack.begin(); i != this->_stack.end(); ++i) {
-        std::cout << std::stold((*i)->toString()) << std::endl;
+        if ((*i)->getType() == _Float) {
+            std::cout << std::stold((*i)->toString()) << std::endl;
+        } else {
+           std::cout << (*i)->toString() << std::endl;
+        }
     }
 }
 
@@ -77,6 +82,7 @@ void                Parser::add( void ) {
     this->_stack.pop_front();
     IOperand const * _addVal2 = (*this->_stack.begin());
     this->_stack.pop_front();
+    //std::cout << "Adding: " << _addVal1->toString() + " Of Type " << _addVal1->getType() << " To: " <<  _addVal2->toString() << " Of Type " << _addVal2->getType() << " In Line " << this->_lineCount << std::endl;
     IOperand const *retVal = *_addVal1 + *_addVal2;
     this->_stack.push_front(retVal);
 }
@@ -104,6 +110,28 @@ void                Parser::div( void ) {
     IOperand const * _addVal2 = (*this->_stack.begin());
     this->_stack.pop_front();
     IOperand const *retVal = *_addVal1 / *_addVal2;
+    //std::cout << "Divisor : " << std::stold(_addVal2->toString()) << std::endl;
+    if (!std::stold(_addVal2->toString()) || !std::stold(_addVal1->toString())) {
+        std::string errMsg = "[Parser (line: " + std::to_string(this->_lineCount) + " ) Illegal Operation: divisor is equal to 0";
+        throw Parser::PopOnEmptyStack(errMsg);
+    }
+    this->_stack.push_front(retVal);
+}
+
+void                Parser::mod( void ) {
+    if (this->_stack.size() < 2) {
+        std::string errMsg = "[Parser (line: " + std::to_string(this->_lineCount) + " ) Illegal instruction: Stack not large enough for 'div'";
+        throw Parser::PopOnEmptyStack(errMsg);
+    }
+    IOperand const * _addVal1 = (*this->_stack.begin());
+    this->_stack.pop_front();
+    IOperand const * _addVal2 = (*this->_stack.begin());
+    this->_stack.pop_front();
+    IOperand const *retVal = *_addVal1 % *_addVal2;
+    if (!std::stold(_addVal2->toString()) || !std::stold(_addVal1->toString())) {
+        std::string errMsg = "[Parser (line: " + std::to_string(this->_lineCount) + " ) Illegal Operation: divisor is equal to 0";
+        throw Parser::PopOnEmptyStack(errMsg);
+    }
     this->_stack.push_front(retVal);
 }
 
@@ -134,6 +162,27 @@ void                Parser::assert( std::string line ) {
         std::string errMsg = "[Parser (line: " + std::to_string(this->_lineCount) + " ) 'assert' value does not match top value in stack";
         throw Parser::PopOnEmptyStack(errMsg);
     }
+}
+
+template <typename U>bool checkFlows(U value, eOperandType type) const {
+    switch (type) {
+        case (_Int8):
+            //std::cout << "CHAR" << std::endl;
+            return (value > CHAR_MAX || value < CHAR_MIN);
+        case (_Int16):
+            //std::cout << "SHRT" << std::endl;
+            return (value > SHRT_MAX || value < SHRT_MIN);
+        case (_Int32):
+            //std::cout << "INT" << std::endl;
+            return (value > INT_MAX || value < INT_MIN);
+        case (_Float):
+            //std::cout << "FLOAT" << std::endl;
+            return (value > std::numeric_limits<float>::max() || value < std::numeric_limits<float>::min());
+        case (_Double):
+            //std::cout << "DOUBLE" << std::endl;
+            return (value > std::numeric_limits<double>::max() || value < std::numeric_limits<double>::min());
+    }
+    return (true);
 }
 
 // !EXCEPTIONS

@@ -37,10 +37,12 @@ template <typename T> class Operand: public IOperand {
             OperandFactory  factory;
             IOperand const * retVal;
             if (this->getPrecision() < rhs.getPrecision()) {
+                std::cout << "New Type is :" << rhs.getType() << std::endl;
                 retVal = factory.createOperand(rhs.getType(), std::to_string(std::stold(this->toString()) + std::stold(rhs.toString())));
                 long double v = std::stold(retVal->toString());
-                if (checkFlows<long double>(v, this->getType())) {throw OperandError("[Operand] Overflow / Underflow detected");}
+                if (checkFlows<long double>(v, rhs.getType())) {throw OperandError("[Operand] Overflow / Underflow detected");}
             } else {
+                std::cout << "New Type is :" << this->getType() << std::endl;
                 retVal = factory.createOperand(this->getType(), std::to_string(std::stold(this->toString()) + std::stold(rhs.toString())));
                 long double v = std::stold(retVal->toString());
                 if (checkFlows<long double>(v, this->getType())) { throw OperandError("[Operand] Overflow / Underflow detected"); }
@@ -54,7 +56,7 @@ template <typename T> class Operand: public IOperand {
             if (this->getPrecision() < rhs.getPrecision()) {
                 retVal = factory.createOperand(rhs.getType(), std::to_string(std::stold(this->toString()) - std::stold(rhs.toString())));
                 long double v = std::stold(retVal->toString());
-                if (checkFlows<long double>(v, this->getType())) {throw OperandError("[Operand] Overflow / Underflow detected");}
+                if (checkFlows<long double>(v, rhs.getType())) {throw OperandError("[Operand] Overflow / Underflow detected");}
             } else {
                 retVal = factory.createOperand(this->getType(), std::to_string(std::stold(this->toString()) - std::stold(rhs.toString())));
                 long double v = std::stold(retVal->toString());
@@ -69,7 +71,7 @@ template <typename T> class Operand: public IOperand {
             if (this->getPrecision() < rhs.getPrecision()) {
                 retVal = factory.createOperand(rhs.getType(), std::to_string(std::stold(this->toString()) * std::stold(rhs.toString())));
                 long double v = std::stold(retVal->toString());
-                if (checkFlows<long double>(v, this->getType())) {throw OperandError("[Operand] Overflow / Underflow detected");}
+                if (checkFlows<long double>(v, rhs.getType())) {throw OperandError("[Operand] Overflow / Underflow detected");}
             } else {
                 retVal = factory.createOperand(this->getType(), std::to_string(std::stold(this->toString()) * std::stold(rhs.toString())));
                 long double v = std::stold(retVal->toString());
@@ -84,7 +86,7 @@ template <typename T> class Operand: public IOperand {
             if (this->getPrecision() < rhs.getPrecision()) {
                 retVal = factory.createOperand(rhs.getType(), std::to_string(std::stold(this->toString()) / std::stold(rhs.toString())));
                 long double v = std::stold(retVal->toString());
-                if (checkFlows<long double>(v, this->getType())) {throw OperandError("[Operand] Overflow / Underflow detected");}
+                if (checkFlows<long double>(v, rhs.getType())) {throw OperandError("[Operand] Overflow / Underflow detected");}
             } else {
                 retVal = factory.createOperand(this->getType(), std::to_string(std::stold(this->toString()) / std::stold(rhs.toString())));
                 long double v = std::stold(retVal->toString());
@@ -100,14 +102,19 @@ template <typename T> class Operand: public IOperand {
         template <typename U>bool checkFlows(U value, eOperandType type) const {
             switch (type) {
                 case (_Int8):
+                    //std::cout << "CHAR" << std::endl;
                     return (value > CHAR_MAX || value < CHAR_MIN);
                 case (_Int16):
+                    //std::cout << "SHRT" << std::endl;
                     return (value > SHRT_MAX || value < SHRT_MIN);
                 case (_Int32):
+                    //std::cout << "INT" << std::endl;
                     return (value > INT_MAX || value < INT_MIN);
                 case (_Float):
+                    //std::cout << "FLOAT" << std::endl;
                     return (value > std::numeric_limits<float>::max() || value < std::numeric_limits<float>::min());
                 case (_Double):
+                    //std::cout << "DOUBLE" << std::endl;
                     return (value > std::numeric_limits<double>::max() || value < std::numeric_limits<double>::min());
             }
             return (true);

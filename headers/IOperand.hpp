@@ -6,7 +6,7 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 11:42:06 by qmanamel          #+#    #+#             */
-/*   Updated: 2018/07/10 08:35:40 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/11 12:59:08 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <cctype>
 # include <locale>
 # include <climits>
+# include <iomanip>
 
 enum eOperandType {_Int8, _Int16, _Int32, _Float, _Double};
 

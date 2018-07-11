@@ -6,7 +6,7 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/08 19:19:54 by root              #+#    #+#             */
-/*   Updated: 2018/07/10 16:23:49 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/11 09:53:45 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ public:
     void                add( void );
     void                mul( void );
     void                div( void );
+    void                mod( void );
 
     // !EXCEPTIONS 
     class PopOnEmptyStack : public std::exception {

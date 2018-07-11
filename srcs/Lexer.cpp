@@ -6,7 +6,7 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/08 14:34:16 by root              #+#    #+#             */
-/*   Updated: 2018/07/09 10:03:15 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/11 10:01:09 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void    Lexer::runLexer(std::list<std::string>& operations) {
         rtrim(*i);
 
         std::string line = *i;
-        if (line.substr(0, 1) != ";") {
+        if (line != "") {
+            if (line.substr(0, 1) != ";") {
             if (!(std::find(this->_allowedInstructions.begin(), this->_allowedInstructions.end(),
             line.substr(0, line.find(" "))) != this->_allowedInstructions.end())) {
                 this->_errList.push_back("[Lexer (line: " + std::to_string(lineCount) +
@@ -64,6 +65,7 @@ void    Lexer::runLexer(std::list<std::string>& operations) {
                     ")] '" + line + "' Missing parantheses.");
                 }
             }
+        }
         }
     }
 
