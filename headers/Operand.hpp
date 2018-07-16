@@ -15,8 +15,10 @@ template <typename T> class Operand: public IOperand {
             this->_string = src->_string;
         }
 
-        Operand( T value, eOperandType type ) {
-            this->_value = std::to_string(value);
+        Operand( std::string value, eOperandType type ) {
+            long double val = std::stold(value);
+            if (checkFlows<long double>(val, type)) { throw OperandError("[Operand] Overflow / Underflow detected"); }
+            this->_value = value;
             this->_type = type;
             this->_string = _value;
         }
@@ -37,12 +39,12 @@ template <typename T> class Operand: public IOperand {
             OperandFactory  factory;
             IOperand const * retVal;
             if (this->getPrecision() < rhs.getPrecision()) {
-                std::cout << "New Type is :" << rhs.getType() << std::endl;
+                //std::cout << "New Type is :" << rhs.getType() << std::endl;
                 retVal = factory.createOperand(rhs.getType(), std::to_string(std::stold(this->toString()) + std::stold(rhs.toString())));
                 long double v = std::stold(retVal->toString());
                 if (checkFlows<long double>(v, rhs.getType())) {throw OperandError("[Operand] Overflow / Underflow detected");}
             } else {
-                std::cout << "New Type is :" << this->getType() << std::endl;
+                //std::cout << "New Type is :" << this->getType() << std::endl;
                 retVal = factory.createOperand(this->getType(), std::to_string(std::stold(this->toString()) + std::stold(rhs.toString())));
                 long double v = std::stold(retVal->toString());
                 if (checkFlows<long double>(v, this->getType())) { throw OperandError("[Operand] Overflow / Underflow detected"); }

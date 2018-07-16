@@ -29,6 +29,7 @@ public:
     void                assert( std::string line );
 
     void                add( void );
+    void                sub( void );
     void                mul( void );
     void                div( void );
     void                mod( void );

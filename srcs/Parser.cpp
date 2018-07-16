@@ -15,6 +15,7 @@
 Parser::Parser():_lineCount(0) {
     return ;
 }
+
 Parser::~Parser() {
     return ;
 }
@@ -28,6 +29,7 @@ void               Parser::runParser(std::list<std::string>& operations) {
         if (line.substr(0, line.find(" ")) == "pop") {this->pop();}
         if (line.substr(0, line.find(" ")) == "dump") {this->dump();}
         if (line.substr(0, line.find(" ")) == "add") {this->add();}
+        if (line.substr(0, line.find(" ")) == "sub") {this->sub();}
         if (line.substr(0, line.find(" ")) == "mul") {this->mul();}
         if (line.substr(0, line.find(" ")) == "div") {this->div();}
         if (line.substr(0, line.find(" ")) == "mod") {this->mod();}
@@ -68,7 +70,7 @@ void              Parser::dump( void ) {
         if ((*i)->getType() == _Float) {
             std::cout << std::stold((*i)->toString()) << std::endl;
         } else {
-           std::cout << (*i)->toString() << std::endl;
+           std::cout << std::stold((*i)->toString()) << std::endl;
         }
     }
 }
@@ -83,7 +85,7 @@ void                Parser::add( void ) {
     IOperand const * _addVal2 = (*this->_stack.begin());
     this->_stack.pop_front();
     //std::cout << "Adding: " << _addVal1->toString() + " Of Type " << _addVal1->getType() << " To: " <<  _addVal2->toString() << " Of Type " << _addVal2->getType() << " In Line " << this->_lineCount << std::endl;
-    IOperand const *retVal = *_addVal1 + *_addVal2;
+    IOperand const *retVal = *_addVal2 + *_addVal1;
     this->_stack.push_front(retVal);
 }
 
@@ -96,10 +98,22 @@ void                Parser::mul( void ) {
     this->_stack.pop_front();
     IOperand const * _addVal2 = (*this->_stack.begin());
     this->_stack.pop_front();
-    IOperand const *retVal = *_addVal1 * *_addVal2;
+    IOperand const *retVal = *_addVal2 * *_addVal1;
     this->_stack.push_front(retVal);
 }
 
+void                Parser::sub( void ) {
+    if (this->_stack.size() < 2) {
+        std::string errMsg = "[Parser (line: " + std::to_string(this->_lineCount) + " ) Illegal instruction: Stack not large enough for 'mul'";
+        throw Parser::PopOnEmptyStack(errMsg);
+    }
+    IOperand const * _addVal1 = (*this->_stack.begin());
+    this->_stack.pop_front();
+    IOperand const * _addVal2 = (*this->_stack.begin());
+    this->_stack.pop_front();
+    IOperand const *retVal = *_addVal2 - *_addVal1;
+    this->_stack.push_front(retVal);
+}
 void                Parser::div( void ) {
     if (this->_stack.size() < 2) {
         std::string errMsg = "[Parser (line: " + std::to_string(this->_lineCount) + " ) Illegal instruction: Stack not large enough for 'div'";
@@ -109,12 +123,12 @@ void                Parser::div( void ) {
     this->_stack.pop_front();
     IOperand const * _addVal2 = (*this->_stack.begin());
     this->_stack.pop_front();
-    IOperand const *retVal = *_addVal1 / *_addVal2;
-    //std::cout << "Divisor : " << std::stold(_addVal2->toString()) << std::endl;
-    if (!std::stold(_addVal2->toString()) || !std::stold(_addVal1->toString())) {
+    if (!std::stold(_addVal1->toString())) {
         std::string errMsg = "[Parser (line: " + std::to_string(this->_lineCount) + " ) Illegal Operation: divisor is equal to 0";
         throw Parser::PopOnEmptyStack(errMsg);
     }
+    IOperand const *retVal = *_addVal2 / *_addVal1;
+    //std::cout << "Divisor : " << std::stold(_addVal2->toString()) << std::endl;
     this->_stack.push_front(retVal);
 }
 
@@ -127,11 +141,11 @@ void                Parser::mod( void ) {
     this->_stack.pop_front();
     IOperand const * _addVal2 = (*this->_stack.begin());
     this->_stack.pop_front();
-    IOperand const *retVal = *_addVal1 % *_addVal2;
-    if (!std::stold(_addVal2->toString()) || !std::stold(_addVal1->toString())) {
+    if (!std::stold(_addVal1->toString())) {
         std::string errMsg = "[Parser (line: " + std::to_string(this->_lineCount) + " ) Illegal Operation: divisor is equal to 0";
         throw Parser::PopOnEmptyStack(errMsg);
     }
+    IOperand const *retVal = *_addVal2 % *_addVal1;
     this->_stack.push_front(retVal);
 }
 
@@ -164,7 +178,7 @@ void                Parser::assert( std::string line ) {
     }
 }
 
-template <typename U>bool checkFlows(U value, eOperandType type) const {
+template <typename U>bool checkFlows(U value, eOperandType type) {
     switch (type) {
         case (_Int8):
             //std::cout << "CHAR" << std::endl;
