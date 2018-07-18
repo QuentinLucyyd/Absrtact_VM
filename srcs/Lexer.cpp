@@ -6,7 +6,7 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/08 14:34:16 by root              #+#    #+#             */
-/*   Updated: 2018/07/11 10:01:09 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/16 11:34:17 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,23 @@ void    Lexer::runLexer(std::list<std::string>& operations) {
                 }
             }
         }
+        }
+    }
+    std::list<std::string>::iterator i;
+    for (i = operations.begin(); i != operations.end(); ++i) {
+        //std::cout << *i << std::endl;
+    }
+
+    /* Checking for 'exit' instruction */
+    i--;
+    if (*i == ";;") {
+        i--;
+        if (*i != "exit") {
+            this->_errList.push_back("Lexer : No 'exit' instruction found");
+        }
+    } else {
+        if (*i != "exit") {
+            this->_errList.push_back("Lexer : No 'exit' instruction found");
         }
     }
 

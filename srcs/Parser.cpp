@@ -6,7 +6,7 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/08 19:43:16 by root              #+#    #+#             */
-/*   Updated: 2018/07/11 13:39:52 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/17 10:33:10 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,21 @@ Parser::Parser():_lineCount(0) {
 
 Parser::~Parser() {
     return ;
+}
+
+static inline void rtrim(std::string &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(),
+            std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+}
+
+static inline void ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(),
+            std::not1(std::ptr_fun<int, int>(std::isspace))));
+}
+
+static inline void trim(std::string &s) {
+    rtrim(s);
+    ltrim(s);
 }
 
 void               Parser::runParser(std::list<std::string>& operations) {
@@ -33,6 +48,7 @@ void               Parser::runParser(std::list<std::string>& operations) {
         if (line.substr(0, line.find(" ")) == "mul") {this->mul();}
         if (line.substr(0, line.find(" ")) == "div") {this->div();}
         if (line.substr(0, line.find(" ")) == "mod") {this->mod();}
+        if (line.substr(0, line.find(" ")) == "print") {this->print();}
         if (line.substr(0, line.find(" ")) == "assert") {this->assert(line);}
     }
 }
@@ -48,6 +64,8 @@ eOperandType        Parser::getOperandValue(std::string operandType) {
 void              Parser::push( std::string line ) {
     std::string instruction = line.substr(line.find(" ") + 1, line.find(")"));
     std::string operandType = instruction.substr(0, instruction.find("("));
+    rtrim(operandType);
+    ltrim(operandType);
     std::string value = instruction.substr(instruction.find("(") + 1, instruction.size());
     value.resize(value.size() - 1);
     this->_stack.push_front(this->_factory.createOperand(getOperandValue(operandType), value));
@@ -68,10 +86,25 @@ void              Parser::dump( void ) {
     }
     for (std::list<IOperand const *>::iterator i = this->_stack.begin(); i != this->_stack.end(); ++i) {
         if ((*i)->getType() == _Float) {
-            std::cout << std::stold((*i)->toString()) << std::endl;
+            std::cout << (*i)->toString() << std::endl;
         } else {
            std::cout << std::stold((*i)->toString()) << std::endl;
         }
+    }
+}
+
+void                Parser::print( void ) {
+    if (!this->_stack.size()) {
+        std::string errMsg = "[Parser (line: " + std::to_string(this->_lineCount) + " ) Illegal instruction: Stack not large enough for 'print'";
+        throw Parser::PopOnEmptyStack(errMsg);
+    }
+    IOperand const * printVal = (*this->_stack.begin());
+    if (printVal->getType() != _Int8) {
+        std::string errMsg = "[Parser (line: " + std::to_string(this->_lineCount) + " ) Illegal instruction: top stack val is not an 8-bit integer";
+        throw Parser::PopOnEmptyStack(errMsg);
+    } else {
+        int val =  std::stoi(printVal->toString());
+        std::cout << static_cast<char>(val) << std::endl;
     }
 }
 

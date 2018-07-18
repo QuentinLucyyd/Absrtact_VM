@@ -98,7 +98,18 @@ template <typename T> class Operand: public IOperand {
         }
 
         IOperand const *  operator%( IOperand const & rhs ) const {
-            return (this);
+            OperandFactory  factory;
+            IOperand const * retVal;
+            if (this->getPrecision() < rhs.getPrecision()) {
+                retVal = factory.createOperand(rhs.getType(), std::to_string(fmod(std::stold(this->toString()), std::stold(rhs.toString()))));
+                long double v = std::stold(retVal->toString());
+                if (checkFlows<long double>(v, rhs.getType())) {throw OperandError("[Operand] Overflow / Underflow detected");}
+            } else {
+                retVal = factory.createOperand(this->getType(), std::to_string(fmod(std::stold(this->toString()), std::stold(rhs.toString()))));
+                long double v = std::stold(retVal->toString());
+                if (checkFlows<long double>(v, this->getType())) { throw OperandError("[Operand] Overflow / Underflow detected"); }
+            }
+            return (retVal);
         }
 
         template <typename U>bool checkFlows(U value, eOperandType type) const {
@@ -113,11 +124,10 @@ template <typename T> class Operand: public IOperand {
                     //std::cout << "INT" << std::endl;
                     return (value > INT_MAX || value < INT_MIN);
                 case (_Float):
-                    //std::cout << "FLOAT" << std::endl;
-                    return (value > std::numeric_limits<float>::max() || value < std::numeric_limits<float>::min());
+                    return (value > FLT_MAX || value < -FLT_MAX);
                 case (_Double):
                     //std::cout << "DOUBLE" << std::endl;
-                    return (value > std::numeric_limits<double>::max() || value < std::numeric_limits<double>::min());
+                    return (value > DBL_MAX || value < -DBL_MAX);
             }
             return (true);
         }

@@ -6,7 +6,7 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/08 19:19:54 by root              #+#    #+#             */
-/*   Updated: 2018/07/11 09:53:45 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/16 09:10:23 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ public:
     void                runParser( std::list<std::string>& operations );
     eOperandType        getOperandValue( std::string operandType );
 
-    void                push( std::string line );
     void                pop( void );
     void                dump( void );
+    void                print( void );
+    void                push( std::string line );
     void                assert( std::string line );
 
     void                add( void );
