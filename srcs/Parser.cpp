@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Parser.cpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/08 19:43:16 by root              #+#    #+#             */
-/*   Updated: 2018/07/17 10:33:10 by qmanamel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../headers/Parser.hpp"
 
 Parser::Parser():_lineCount(0) {
@@ -85,7 +73,7 @@ void              Parser::dump( void ) {
         throw Parser::PopOnEmptyStack(errMsg);
     }
     for (std::list<IOperand const *>::iterator i = this->_stack.begin(); i != this->_stack.end(); ++i) {
-        if ((*i)->getType() == _Float) {
+        if ((*i)->getType() == _Float || (*i)->getType() == _Double) {
             std::cout << (*i)->toString() << std::endl;
         } else {
            std::cout << std::stold((*i)->toString()) << std::endl;

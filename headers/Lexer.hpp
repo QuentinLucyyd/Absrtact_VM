@@ -6,7 +6,7 @@
 /*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/08 14:29:01 by root              #+#    #+#             */
-/*   Updated: 2018/07/10 08:35:37 by qmanamel         ###   ########.fr       */
+/*   Updated: 2018/07/18 10:50:26 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ public:
             std::string _exceptions;
     };
 
+    void    checkValue(std::string line, int lineCount);
     void    runLexer(std::list<std::string>& operations);
     void    createExceptions();
 private:

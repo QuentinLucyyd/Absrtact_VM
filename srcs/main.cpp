@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 11:59:40 by qmanamel          #+#    #+#             */
-/*   Updated: 2018/07/08 19:16:01 by root             ###   ########.fr       */
+/*   Updated: 2018/07/18 10:51:23 by qmanamel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ int main(int argc, char **argv){
         }
         _mainProgram.start();
     } catch (std::exception & e) {
-        std::cout << "AbstractVM: execution failure." << std::endl << e.what() << std::endl;
+        std::cout << "AbstractVM: execution failure." << std::endl << e.what();
     }
 }

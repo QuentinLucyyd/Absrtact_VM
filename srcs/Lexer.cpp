@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Lexer.cpp                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/08 14:34:16 by root              #+#    #+#             */
-/*   Updated: 2018/07/16 11:34:17 by qmanamel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../headers/Lexer.hpp"
 
 Lexer::Lexer(){
@@ -41,8 +29,22 @@ static inline void ltrim(std::string &s) {
             std::not1(std::ptr_fun<int, int>(std::isspace))));
 }
 
-void    Lexer::runLexer(std::list<std::string>& operations) {
+void    Lexer::checkValue(std::string line, int lineCount) {
+    if (line.find('(') != std::string::npos) {
+        int len = line.find(")") - line.find("(");
+        std::string _value = line.substr(line.find("(") + 1, len - 1);
+        for(std::string::iterator it = _value.begin(); it != _value.end(); ++it) {
+            if (!std::isdigit(*it)) {
+                if (*it != '.') {
+                    this->_errList.push_back("[Lexer (line: " + std::to_string(lineCount) +
+                    ")] Unexpected charecter '" + *it + "'");
+                }
+            }
+        }
+    }
+}
 
+void    Lexer::runLexer(std::list<std::string>& operations) {
     int lineCount = 0;
     for(std::list<std::string>::iterator i = operations.begin(); i != operations.end(); ++i) {
         lineCount++;
@@ -57,6 +59,7 @@ void    Lexer::runLexer(std::list<std::string>& operations) {
                 this->_errList.push_back("[Lexer (line: " + std::to_string(lineCount) +
                 ")] '" + line.substr(0, line.find(" ")) + "' Unknown instruction.");
             } else if (line.substr(0,line.find(" ")) == "push") {
+                checkValue(line, lineCount);
                 if ((std::count(line.begin(), line.end(), '(')) > 1 || (std::count(line.begin(), line.end(), ')')) > 1) {
                     this->_errList.push_back("[Lexer (line: " + std::to_string(lineCount) +
                     ")] '" + line + "' Too many parantheses.");
@@ -69,11 +72,7 @@ void    Lexer::runLexer(std::list<std::string>& operations) {
         }
     }
     std::list<std::string>::iterator i;
-    for (i = operations.begin(); i != operations.end(); ++i) {
-        //std::cout << *i << std::endl;
-    }
-
-    /* Checking for 'exit' instruction */
+    for (i = operations.begin(); i != operations.end(); ++i) {}
     i--;
     if (*i == ";;") {
         i--;
