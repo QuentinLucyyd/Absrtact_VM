@@ -18,11 +18,6 @@ static inline void ltrim(std::string &s) {
             std::not1(std::ptr_fun<int, int>(std::isspace))));
 }
 
-static inline void trim(std::string &s) {
-    rtrim(s);
-    ltrim(s);
-}
-
 void               Parser::runParser(std::list<std::string>& operations) {
     for(std::list<std::string>::iterator i = operations.begin(); i != operations.end(); ++i) {
         this->_lineCount++;
@@ -57,7 +52,6 @@ void              Parser::push( std::string line ) {
     std::string value = instruction.substr(instruction.find("(") + 1, instruction.size());
     value.resize(value.size() - 1);
     this->_stack.push_front(this->_factory.createOperand(getOperandValue(operandType), value));
-    IOperand const * _ret = (*this->_stack.begin());
 }
 
 void              Parser::pop( void ) {
@@ -74,7 +68,7 @@ void              Parser::dump( void ) {
     }
     for (std::list<IOperand const *>::iterator i = this->_stack.begin(); i != this->_stack.end(); ++i) {
         if ((*i)->getType() == _Float || (*i)->getType() == _Double) {
-            std::cout << (*i)->toString() << std::endl;
+            std::cout << std::stold((*i)->toString()) << std::endl;
         } else {
            std::cout << std::stold((*i)->toString()) << std::endl;
         }

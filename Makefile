@@ -6,7 +6,7 @@
 #    By: qmanamel <qmanamel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/15 11:41:20 by qmanamel          #+#    #+#              #
-#    Updated: 2018/07/11 08:32:14 by qmanamel         ###   ########.fr        #
+#    Updated: 2018/08/15 10:43:59 by qmanamel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = abstract_vm
 
 CC = clang++
 
-FLAGS =	#Add Flags Last			
+FLAGS =	-Wall -Wextra -Werror
 
 HEADERS = -I headers/
 
